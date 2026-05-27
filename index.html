@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SCOIS — Student Council of Imam Syafii 2</title>
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* ── HERO ── */
+    .hero {
+      min-height: 90vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 6rem 5% 4rem;
+      position: relative; overflow: hidden;
+      
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-image: url('images/sekolah.png');
+      background-size: cover;
+      background-position: top;
+      opacity: 0.3;
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 680px; text-align: center; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--blue-lt); border: 1px solid var(--border);
+      border-radius: 100px; padding: 0.3rem 0.9rem;
+      font-size: 0.8rem; font-weight: 500; color: var(--blue);
+      margin-bottom: 1.5rem; letter-spacing: 0.04em;
+    }
+   
+    .hero-sub {
+      font-size: 1.1rem; color: var(--muted); max-width: 520px;
+      margin-bottom: 2.5rem; font-weight: 300;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .stat { padding: 2.5rem 5%; text-align: center; border-right: 1px solid var(--border); }
+    .stat:last-child { border-right: none; }
+    .stat-num { font-family: var(--serif); font-size: 2.8rem; font-weight: 900; color: var(--blue); line-height: 1; }
+    .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.4rem; }
+
+    /* ── ABOUT ── */
+    .about { background: var(--blue-lt); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center; }
+    .about-img {
+      background: var(--blue-lt); border: 1px solid var(--border);
+      border-radius: 16px; aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.875rem; color: var(--muted);
+      position: relative; overflow: hidden;
+    }
+    .about-img::after {
+      content: ''; position: absolute; bottom: 0; right: 0;
+      width: 60%; height: 60%; background: var(--blue); opacity: 0.06;
+      border-radius: 50% 0 0 0;
+    }
+    .about-img-label { position: relative; z-index: 1; }
+
+    /* ── DIVISION CARDS ── */
+    .programs { background: var(--bg); }
+    .programs-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+    .program-card {
+      background: var(--white); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 0;
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative; overflow: hidden;
+      text-decoration: none; display: block; cursor: pointer;
+    }
+    .program-card::before {
+      content: ''; position: absolute;
+      top: 0; left: 0; right: 0; height: 3px;
+      background: var(--blue);
+    }
+    .program-card:hover { transform: translateY(0px); box-shadow: 0 16px 40px rgba(15,31,22,0.10); }
+    .program-card:hover .card-arrow { transform: translateX(4px); }
+    .card-img {
+      width: 100%; height: 160px; object-fit: cover;
+      display: block; background: var(--blue-lt);
+      position: relative;
+    }
+    .card-img-placeholder {
+      width: 100%; height: 160px;
+      background: linear-gradient(135deg, var(--blue-lt) 0%, #c5d9e8 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .card-img-placeholder img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+    }
+    .card-body { padding: 1.5rem; }
+    .card-body h3 { margin-bottom: 0.5rem; }
+    .card-body p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+    .card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.25rem; padding-top: 1rem;
+      border-top: 1px solid var(--border);
+    }
+    .card-footer span { font-size: 0.8rem; color: var(--muted); }
+    .card-arrow {
+      font-size: 0.85rem; font-weight: 500; color: var(--blue);
+      transition: transform 0.2s;
+    }
+
+    /* ── EVENTS ── */
+    .events { background: var(--dark); }
+    .events .section-tag { color: var(--gold); }
+    .events h2 { color: var(--white); }
+    .events .section-lead { color: rgba(255,255,255,0.5); }
+    .events-list {
+      display: flex; flex-direction: column; gap: 1px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius); overflow: hidden;
+    }
+    .event-item {
+      background: rgba(255,255,255,0.04);
+      padding: 1.5rem 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 2rem; border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: background 0.15s;
+    }
+    .event-item:last-child { border-bottom: none; }
+    .event-item:hover { background: rgba(255,255,255,0.07); }
+    .event-date {
+      font-family: var(--serif); font-size: 1.6rem; font-weight: 700;
+      color: var(--gold); min-width: 3.5rem; text-align: center; line-height: 1;
+    }
+    .event-date span { display: block; font-family: var(--sans); font-size: 0.7rem; font-weight: 400; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; margin-top: 0.2rem; }
+    .event-info h4 { font-size: 1rem; font-weight: 500; color: var(--white); }
+    .event-info p { font-size: 0.85rem; color: rgba(255,255,255,0.45); margin-top: 0.2rem; }
+    .event-tag {
+      font-size: 0.75rem; font-weight: 500; padding: 0.3rem 0.8rem;
+      border-radius: 100px; border: 1px solid rgba(201,168,76,0.4);
+      color: var(--gold); white-space: nowrap;
+    }
+
+    /* ── STRUCTURE ── */
+    .structure { background: var(--white); }
+
+    /* org chart wrapper */
+    .org-chart { display: flex; flex-direction: column; align-items: center; gap: 0; }
+
+    /* each tier row */
+    .org-tier { display: flex; justify-content: center; gap: 1.5rem; width: 100%; position: relative; }
+
+    /* vertical line going down from a tier */
+    .org-connector-down {
+      width: 2px; height: 48px;
+      background: var(--border);
+      margin: 0 auto;
+    }
+
+    /* horizontal bar + drops for multi-node tiers */
+    .org-branch {
+      display: flex; flex-direction: column; align-items: center; width: 100%;
+    }
+    .org-branch-line {
+      position: relative; display: flex; justify-content: center;
+      width: 100%; height: 48px;
+    }
+    /* vertical stem coming down into the horizontal bar */
+    .org-branch-line::before {
+      content: ''; position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 2px; height: 24px;
+      background: var(--border);
+    }
+    /* horizontal bar */
+    .org-branch-line::after {
+      content: ''; position: absolute;
+      top: 24px; left: var(--bar-left, 25%); right: var(--bar-right, 25%);
+      height: 2px; background: var(--border);
+    }
+    /* drop lines from bar to each card — injected via child spans */
+    .org-drop {
+      position: absolute; bottom: 0;
+      width: 2px; background: var(--border); height: 24px;
+    }
+
+
+    /* ── CONTACT ── */
+    .contact { background: var(--blue-lt); }
+    .contact-inner { max-width: 600px; margin: 0 auto; text-align: center; }
+    .contact h2 { margin-bottom: 0.75rem; }
+    .contact .section-lead { margin: 0 auto 2.5rem; }
+    .contact-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* ── DIVISION PAGES (:target illusion) ── */
+    .division-page {
+      display: none;
+      padding: 0;
+    }
+    /* when any division is targeted, hide main page body */
+    #div-minba:target ~ #page-body,
+    #div-kominfo:target ~ #page-body,
+    #div-humas:target ~ #page-body,
+    #div-tibkam:target ~ #page-body { display: none; }
+
+    /* show the targeted division */
+    #div-minba:target,
+    #div-kominfo:target,
+    #div-humas:target,
+    #div-tibkam:target { display: block; }
+
+    /* division hero banner */
+    .div-hero {
+      min-height: 340px; display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 4rem 5% 3rem;
+      position: relative; overflow: hidden;
+      background: var(--blue);
+    }
+    .div-hero-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      opacity: 0.25;
+    }
+    .div-hero-content { position: relative; z-index: 1; }
+    .div-back {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.85rem; font-weight: 500; color: rgba(255,255,255,0.7);
+      text-decoration: none; margin-bottom: 1.5rem;
+      transition: color 0.2s;
+    }
+    .div-back:hover { color: var(--white); }
+    .div-hero h1 { color: var(--white); margin-bottom: 0.5rem; font-size: clamp(2rem,5vw,3.2rem); }
+    .div-hero p { color: rgba(255,255,255,0.65); font-size: 1.05rem; font-weight: 300; max-width: 560px; }
+
+    /* division body sections */
+    .div-body { background: var(--bg); }
+    .div-section { padding: 4rem 5%; }
+    .div-section + .div-section { border-top: 1px solid var(--border); }
+    .div-section h2 { margin-bottom: 1.5rem; }
+
+    /* team table */
+    .div-table { width: 100%; border-collapse: collapse; background: var(--white); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border); }
+    .div-table th {
+      background: var(--blue-lt); color: var(--blue);
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 0.85rem 1.25rem; text-align: left;
+    }
+    .div-table td { padding: 0.85rem 1.25rem; border-top: 1px solid var(--border); font-size: 0.9rem; vertical-align: middle; }
+    .div-table tr:hover td { background: var(--blue-lt); }
+    .div-table .member-photo {
+      width: 40px; height: 40px; border-radius: 50%;
+      object-fit: cover; background: var(--blue-lt);
+      border: 2px solid var(--border); display: block;
+    }
+    .div-table .photo-placeholder {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--blue-lt); border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--serif); font-size: 0.85rem; font-weight: 700; color: var(--blue);
+    }
+
+    /* gallery grid */
+    .div-gallery {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+    }
+    .div-gallery-item {
+      aspect-ratio: 4/3; border-radius: 10px; overflow: hidden;
+      background: var(--blue-lt); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .div-gallery-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    @media (max-width: 768px) {
+      .div-gallery { grid-template-columns: repeat(2, 1fr); }
+      .div-table th:first-child, .div-table td:first-child { display: none; }
+    }
+
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .programs-grid, .org-tier.programs-grid { grid-template-columns: 1fr !important; }
+      .org-branch-line { display: none; }
+      .org-connector-down { height: 24px; }
+      .stats { grid-template-columns: 1fr; }
+      .stat { border-right: none; border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
+      .event-item { flex-wrap: wrap; }
+      .org-tier { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo"><img src="images/logo-scois.png" alt="SCOIS Logo"><span>SCOIS</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#structure">Structure</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Join Us</a>
+  </nav>
+
+
+  <!-- DIVISION PAGES -->
+
+  <div id="div-minba" class="division-page">
+    <div class="div-hero">
+      <div class="div-hero-bg" style="background-image:url('images/minba.jpg');"></div>
+      <div class="div-hero-content">
+        <a href="#" class="div-back">← Back to Home</a>
+        <h1>Minba</h1>
+        <p>Academic excellence through study groups, tutoring, and scholastic competitions.</p>
+      </div>
+    </div>
+    <div class="div-body">
+      <div class="div-section">
+        <span class="section-tag">About the Division</span>
+        <h2>What We Do</h2>
+        <p style="color:var(--muted);font-weight:300;max-width:680px;">Minba is the academic division of SCOIS, dedicated to supporting every student's scholastic journey. We organize study groups, peer tutoring sessions, and represent the school in inter-school academic competitions. Our goal is to build a culture of learning and intellectual curiosity within the school community.</p>
+      </div>
+      <div class="div-section" style="background:var(--white);">
+        <span class="section-tag">The Team</span>
+        <h2>Division Members</h2>
+        <table class="div-table">
+          <thead>
+            <tr><th>Photo</th><th>Name</th><th>Position</th><th>Class</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="photo-placeholder">A</div></td>
+              <td>Member Name</td><td>Division Head</td><td>XII IPA 1</td>
+            </tr>
+            <tr>
+              <td><div class="photo-placeholder">B</div></td>
+              <td>Member Name</td><td>Vice Head</td><td>XI IPA 2</td>
+            </tr>
+            <tr>
+              <td><div class="photo-placeholder">C</div></td>
+              <td>Member Name</td><td>Member</td><td>XI IPA 1</td>
+            </tr>
+            <tr>
+              <td><div class="photo-placeholder">D</div></td>
+              <td>Member Name</td><td>Member</td><td>X IPA 3</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="div-section">
+        <span class="section-tag">Gallery</span>
+        <h2>Moments</h2>
+        <div class="div-gallery">
+          <div class="div-gallery-item">Photo 1</div>
+          <div class="div-gallery-item">Photo 2</div>
+          <div class="div-gallery-item">Photo 3</div>
+          <div class="div-gallery-item">Photo 4</div>
+          <div class="div-gallery-item">Photo 5</div>
+          <div class="div-gallery-item">Photo 6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="div-kominfo" class="division-page">
+    <div class="div-hero">
+      <div class="div-hero-bg" style="background-image:url('images/kominfo.jpg');"></div>
+      <div class="div-hero-content">
+        <a href="#" class="div-back">← Back to Home</a>
+        <h1>Kominfo</h1>
+        <p>Documentation and communication keeping the school community informed and engaged.</p>
+      </div>
+    </div>
+    <div class="div-body">
+      <div class="div-section">
+        <span class="section-tag">About the Division</span>
+        <h2>What We Do</h2>
+        <p style="color:var(--muted);font-weight:300;max-width:680px;">Kominfo handles all documentation, photography, videography, and internal communications for SCOIS. We capture school events, manage social media presence, and ensure information flows clearly between the council and the student body.</p>
+      </div>
+      <div class="div-section" style="background:var(--white);">
+        <span class="section-tag">The Team</span>
+        <h2>Division Members</h2>
+        <table class="div-table">
+          <thead>
+            <tr><th>Photo</th><th>Name</th><th>Position</th><th>Class</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><div class="photo-placeholder">A</div></td><td>Member Name</td><td>Division Head</td><td>XII IPA 2</td></tr>
+            <tr><td><div class="photo-placeholder">B</div></td><td>Member Name</td><td>Vice Head</td><td>XI IPS 1</td></tr>
+            <tr><td><div class="photo-placeholder">C</div></td><td>Member Name</td><td>Photographer</td><td>XI IPA 3</td></tr>
+            <tr><td><div class="photo-placeholder">D</div></td><td>Member Name</td><td>Social Media</td><td>X IPA 1</td></tr>
+            <tr><td><div class="photo-placeholder">E</div></td><td>Member Name</td><td>Member</td><td>X IPS 2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="div-section">
+        <span class="section-tag">Gallery</span>
+        <h2>Moments</h2>
+        <div class="div-gallery">
+          <div class="div-gallery-item">Photo 1</div>
+          <div class="div-gallery-item">Photo 2</div>
+          <div class="div-gallery-item">Photo 3</div>
+          <div class="div-gallery-item">Photo 4</div>
+          <div class="div-gallery-item">Photo 5</div>
+          <div class="div-gallery-item">Photo 6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="div-humas" class="division-page">
+    <div class="div-hero">
+      <div class="div-hero-bg" style="background-image:url('images/humas.jpg');"></div>
+      <div class="div-hero-content">
+        <a href="#" class="div-back">← Back to Home</a>
+        <h1>Humas</h1>
+        <p>Building bridges between our school and the wider community through public relations.</p>
+      </div>
+    </div>
+    <div class="div-body">
+      <div class="div-section">
+        <span class="section-tag">About the Division</span>
+        <h2>What We Do</h2>
+        <p style="color:var(--muted);font-weight:300;max-width:680px;">Humas (Hubungan Masyarakat) is the public relations arm of SCOIS. We manage relationships with external organizations, coordinate outreach programs, and represent the school in inter-institutional events. Our team works to strengthen the school's presence in the wider community.</p>
+      </div>
+      <div class="div-section" style="background:var(--white);">
+        <span class="section-tag">The Team</span>
+        <h2>Division Members</h2>
+        <table class="div-table">
+          <thead>
+            <tr><th>Photo</th><th>Name</th><th>Position</th><th>Class</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><div class="photo-placeholder">A</div></td><td>Member Name</td><td>Division Head</td><td>XII IPA 1</td></tr>
+            <tr><td><div class="photo-placeholder">B</div></td><td>Member Name</td><td>Vice Head</td><td>XII IPS 1</td></tr>
+            <tr><td><div class="photo-placeholder">C</div></td><td>Member Name</td><td>Member</td><td>XI IPA 2</td></tr>
+            <tr><td><div class="photo-placeholder">D</div></td><td>Member Name</td><td>Member</td><td>XI IPS 2</td></tr>
+            <tr><td><div class="photo-placeholder">E</div></td><td>Member Name</td><td>Member</td><td>X IPA 2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="div-section">
+        <span class="section-tag">Gallery</span>
+        <h2>Moments</h2>
+        <div class="div-gallery">
+          <div class="div-gallery-item">Photo 1</div>
+          <div class="div-gallery-item">Photo 2</div>
+          <div class="div-gallery-item">Photo 3</div>
+          <div class="div-gallery-item">Photo 4</div>
+          <div class="div-gallery-item">Photo 5</div>
+          <div class="div-gallery-item">Photo 6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="div-tibkam" class="division-page">
+    <div class="div-hero">
+      <div class="div-hero-bg" style="background-image:url('images/tibkam.jpg');"></div>
+      <div class="div-hero-content">
+        <a href="#" class="div-back">← Back to Home</a>
+        <h1>Tibkam</h1>
+        <p>Ensuring a safe and orderly environment for all students and staff.</p>
+      </div>
+    </div>
+    <div class="div-body">
+      <div class="div-section">
+        <span class="section-tag">About the Division</span>
+        <h2>What We Do</h2>
+        <p style="color:var(--muted);font-weight:300;max-width:680px;">Tibkam (Ketertiban dan Keamanan) is responsible for maintaining discipline and security across school grounds. We coordinate with teachers and staff to enforce school rules, support event security, and foster a safe, respectful environment for everyone on campus.</p>
+      </div>
+      <div class="div-section" style="background:var(--white);">
+        <span class="section-tag">The Team</span>
+        <h2>Division Members</h2>
+        <table class="div-table">
+          <thead>
+            <tr><th>Photo</th><th>Name</th><th>Position</th><th>Class</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><div class="photo-placeholder">A</div></td><td>Member Name</td><td>Division Head</td><td>XII IPA 3</td></tr>
+            <tr><td><div class="photo-placeholder">B</div></td><td>Member Name</td><td>Vice Head</td><td>XII IPS 2</td></tr>
+            <tr><td><div class="photo-placeholder">C</div></td><td>Member Name</td><td>Member</td><td>XI IPA 1</td></tr>
+            <tr><td><div class="photo-placeholder">D</div></td><td>Member Name</td><td>Member</td><td>XI IPS 1</td></tr>
+            <tr><td><div class="photo-placeholder">E</div></td><td>Member Name</td><td>Member</td><td>X IPA 2</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="div-section">
+        <span class="section-tag">Gallery</span>
+        <h2>Moments</h2>
+        <div class="div-gallery">
+          <div class="div-gallery-item">Photo 1</div>
+          <div class="div-gallery-item">Photo 2</div>
+          <div class="div-gallery-item">Photo 3</div>
+          <div class="div-gallery-item">Photo 4</div>
+          <div class="div-gallery-item">Photo 5</div>
+          <div class="div-gallery-item">Photo 6</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page-body">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Senior Highschool · Boys</div>
+      <h1>Student Council of<br /><em>Imam Syafii 2</em></h1>
+      <p class="hero-sub">Empowering students through leadership, collaboration, and meaningful community service — building tomorrow's leaders today.</p>
+      <div class="hero-actions">
+        <a href="#structure" class="btn-primary">Explore Structure</a>
+        <a href="#about" class="btn-outline">Learn About Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="stat fade-up"><div class="stat-num">25+</div><div class="stat-label">Active Members</div></div>
+    <div class="stat fade-up" style="transition-delay:.1s"><div class="stat-num">15</div><div class="stat-label">Programs per Year</div></div>
+    <div class="stat fade-up" style="transition-delay:.2s"><div class="stat-num">120+</div><div class="stat-label">Students Handled</div></div>
+  </div>
+
+  <!-- CURRENT CABINET BANNER -->
+  <div style="
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 1rem 10%;
+    background: linear-gradient(90deg, var(--ink) 0%, var(--blue) 100%);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  ">
+    <span style="font-size: 0.75rem; color: var(--blue-lt); letter-spacing: 0.08em; text-transform: uppercase;">Current Cabinet</span>
+    <span style="font-size: 1.1rem; font-weight: 700; color: var(--white); font-family: var(--serif);">Ad Victoriam 25/26</span>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-img fade-up">
+        <span class="about-img-label"><img src="images/about.jpg" alt="About SCOIS" width="100%" object-fit="cover"></span>
+      </div>
+      <div class="fade-up" style="transition-delay: 0.15s">
+        <span class="section-tag">Who We Are</span>
+        <h2>More than a council <em>— a community.</em></h2>
+        <p style="color:var(--muted);font-weight:300;margin-bottom:1.5rem;">SCOIS (Student Council of Imam Syafii) is the official student representative body of our school, dedicated to fostering leadership, academic excellence, and a strong sense of community among all students.</p>
+        <p style="color:var(--muted);font-weight:300;">We bridge the gap between students and faculty, organizing programs that enrich student life and create lasting memories.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRUCTURE -->
+  <section class="structure" id="structure">
+    <div class="section-header fade-up" style="text-align:center;">
+      <span class="section-tag">Organisation</span>
+      <h2>Our Structure</h2>
+      <p class="section-lead" style="margin:0 auto;">The board and divisions that make SCOIS run.</p>
+    </div>
+
+    <div class="org-chart fade-up">
+
+      <!-- TIER 1: President -->
+      <div class="org-tier" style="max-width:380px;">
+        <a href="https://instagram.com/rastra.nabil/" target="_blank" class="team-card" style="text-decoration:none; color:inherit; width:100%;">
+          <div class="avatar"><img src="images/rastra.jpg" alt="President"></div>
+          <div style="display:flex; flex-direction:column; align-items:flex-start;">
+            <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+              <h3>Rastra Nabil Wirawan</h3>
+              <h4>President</h4>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- connector down -->
+      <div class="org-connector-down"></div>
+
+      <!-- TIER 2: Vice President -->
+      <div class="org-tier" style="max-width:380px;">
+        <a href="https://instagram.com/aqilwhat/" target="_blank" class="team-card" style="text-decoration:none; color:inherit; width:100%;">
+          <div class="avatar"><img src="images/aqil.jpg" alt="Vice President"></div>
+          <div style="display:flex; flex-direction:column; align-items:flex-start;">
+            <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+              <h3>Muhammad Aqil</h3>
+              <h4>Vice President</h4>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- branch connector for secretary + treasurer -->
+      <div class="org-branch" style="max-width:860px; width:100%;">
+        <div class="org-branch-line" style="--bar-left:25%; --bar-right:25%;">
+          <span class="org-drop" style="left:25%;"></span>
+          <span class="org-drop" style="right:25%;"></span>
+        </div>
+        <div class="org-tier" style="width:100%;">
+          <a href="https://instagram.com/daffasafaraz/" target="_blank" class="team-card" style="text-decoration:none; color:inherit; flex:1;">
+            <div class="avatar"><img src="images/daffa.jpg" alt="Secretary"></div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+              <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+                <h3>Muhammad Daffa Safaraz Yusuf</h3>
+                <h4>Secretary</h4>
+              </div>
+            </div>
+          </a>
+          <a href="https://instagram.com/zakhwan.naufal/" target="_blank" class="team-card" style="text-decoration:none; color:inherit; flex:1;">
+            <div class="avatar"><img src="images/zakhwan.jpg" alt="Treasurer"></div>
+            <div style="display:flex; flex-direction:column; align-items:flex-start;">
+              <div style="display:flex; align-items:center; gap:0.6rem; flex-wrap:wrap;">
+                <h3>Muhammad Zakhwan Naufal Fiqri</h3>
+                <h4>Treasurer</h4>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- branch connector for divisions -->
+      <div class="org-branch" style="width:100%;">
+        <div class="org-branch-line" style="--bar-left:12.5%; --bar-right:12.5%;">
+          <span class="org-drop" style="left:12.5%;"></span>
+          <span class="org-drop" style="left:37.5%;"></span>
+          <span class="org-drop" style="right:37.5%;"></span>
+          <span class="org-drop" style="right:12.5%;"></span>
+        </div>
+        <div class="org-tier programs-grid" style="width:100%; display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem;">
+
+          <a href="#div-minba" class="program-card">
+            <div class="card-img-placeholder"><img src="images/minba.jpg" alt="Minba" width="100%"></div>
+            <div class="card-body">
+              <h3>Minba</h3>
+              <p>Study groups, tutoring sessions, and competitions to support every student's scholastic journey.</p>
+              <div class="card-footer">
+                <span>4 members</span>
+                <span class="card-arrow">View More →</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#div-kominfo" class="program-card">
+            <div class="card-img-placeholder"><img src="images/kominfo.jpg" alt="Kominfo" width="100%"></div>
+            <div class="card-body">
+              <h3>Kominfo</h3>
+              <p>Documentation and communication initiatives to promote engagement within our school community.</p>
+              <div class="card-footer">
+                <span>5 members</span>
+                <span class="card-arrow">View More →</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#div-humas" class="program-card">
+            <div class="card-img-placeholder"><img src="images/humas.jpg" alt="Humas" width="100%"></div>
+            <div class="card-body">
+              <h3>Humas</h3>
+              <p>Building bridges between our school and the wider community through public relation initiatives.</p>
+              <div class="card-footer">
+                <span>15 members</span>
+                <span class="card-arrow">View More →</span>
+              </div>
+            </div>
+          </a>
+
+          <a href="#div-tibkam" class="program-card">
+            <div class="card-img-placeholder"><img src="images/tibkam.jpg" alt="Tibkam" width="100%"></div>
+            <div class="card-body">
+              <h3>Tibkam</h3>
+              <p>Ensuring a safe and secure environment for all students and staff.</p>
+              <div class="card-footer">
+                <span>14 members</span>
+                <span class="card-arrow">View More →</span>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="events" id="events">
+    <div class="section-header fade-up">
+      <span class="section-tag">Calendar</span>
+      <h2>Upcoming Events</h2>
+      <p class="section-lead">Stay up to date with what's happening at SCOIS.</p>
+    </div>
+    <div class="events-list fade-up">
+      <div class="event-item">
+        <div class="event-date">12<span>July</span></div>
+        <div class="event-info"><h4>Annual Leadership Camp 2025</h4><p>School Auditorium & Outdoor Area · 3 Days</p></div>
+        <div class="event-tag">Leadership</div>
+      </div>
+      <div class="event-item">
+        <div class="event-date">03<span>Aug</span></div>
+        <div class="event-info"><h4>Student Seminar: Future Careers</h4><p>Main Hall · 09:00 – 15:00</p></div>
+        <div class="event-tag">Seminar</div>
+      </div>
+      <div class="event-item">
+        <div class="event-date">20<span>Sept</span></div>
+        <div class="event-info"><h4>Charity Drive & School Bazaar</h4><p>School Grounds · All Day</p></div>
+        <div class="event-tag">Social</div>
+      </div>
+      <div class="event-item">
+        <div class="event-date">05<span>Oct</span></div>
+        <div class="event-info"><h4>Inter-School Academic Competition</h4><p>City Convention Center · Teams of 3</p></div>
+        <div class="event-tag">Competition</div>
+      </div>
+    </div>
+  </section>
+
+  
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="contact-inner fade-up">
+      <span class="section-tag">Get In Touch</span>
+      <h2>Want to get involved?</h2>
+      <p class="section-lead">Have questions about our programs, or want to join SCOIS? We'd love to hear from you.</p>
+      <div class="contact-buttons">
+        <a href="mailto:scois@school.ac.id" class="btn-primary">Email Us</a>
+        <a href="https://instagram.com/scois2" target="_blank" class="btn-outline">Follow on Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  </div><!-- /#page-body -->
+
+  <footer>
+    <div><strong>SCOIS</strong> — Student Council of Imam Syafii &nbsp;·&nbsp; © 2025</div>
+    <div>Built by <a href="#">Your Name</a> &nbsp;·&nbsp; <a href="https://github.com/" target="_blank">View on GitHub</a></div>
+  </footer>
+
+  <script>
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
